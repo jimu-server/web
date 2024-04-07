@@ -3,7 +3,7 @@ package web
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/jimu-server/common/resp"
-	"github.com/jimu-server/logger/logger"
+	"github.com/jimu-server/logger"
 	"runtime/debug"
 	"strings"
 )
