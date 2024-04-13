@@ -42,3 +42,8 @@ func ShouldJSON(ctx *gin.Context, bind any) {
 		panic(ArgsErr(err.Error()))
 	}
 }
+func ShouldBindUri(ctx *gin.Context, bind any) {
+	if err := ctx.ShouldBindUri(bind); err != nil {
+		panic(ArgsErr(err.Error()))
+	}
+}
