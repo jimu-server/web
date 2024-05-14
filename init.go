@@ -12,7 +12,7 @@ func init() {
 	Engine.Use(logger.GinLogger(), GlobalException(), Cors())
 }
 
-// cors 跨域处理
+// Cors 跨域处理
 func Cors() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		method := c.Request.Method
