@@ -18,6 +18,8 @@ type WebProgress struct {
 	w       http.ResponseWriter
 	flusher http.Flusher
 	percent float64
+	// 流响应错误回调
+	ErrorCallback func(err error) error
 }
 
 func NewProgress(w http.ResponseWriter) (*WebProgress, error) {
@@ -31,6 +33,9 @@ func NewProgress(w http.ResponseWriter) (*WebProgress, error) {
 	progress := &WebProgress{
 		w:       w,
 		flusher: flusher,
+		ErrorCallback: func(err error) error {
+			return err
+		},
 	}
 	return progress, nil
 }
@@ -51,6 +56,9 @@ func (receiver *WebProgress) progress(progress Progress) error {
 	marshal, _ := jsoniter.Marshal(progress)
 	value := string(marshal) + "\n"
 	if _, err := receiver.w.Write([]byte(value)); err != nil {
+		if receiver.ErrorCallback != nil {
+			return receiver.ErrorCallback(err)
+		}
 		return err
 	}
 	receiver.flusher.Flush()
